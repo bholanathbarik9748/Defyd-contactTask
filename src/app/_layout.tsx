@@ -5,7 +5,11 @@ const _layout = () => {
     <>
       <Stack>
         <Stack.Screen name="index" options={{ title: "Home" }} />
-        <Stack.Screen name="contact/AddAndEdit/index" options={{ title: "Create Contact" }} />
+        <Stack.Screen
+          name="contact/AddAndEdit/index"
+          options={{ title: "Create Contact" }}
+        />
+        <Stack.Screen name="Task/AllTask/[id]" options={{ title: "Tasks" }} />
       </Stack>
     </>
   );

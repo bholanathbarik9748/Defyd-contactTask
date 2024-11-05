@@ -80,7 +80,13 @@ const HomePage = () => {
       <FlatList
         data={filteredContacts}
         keyExtractor={(item) => item._raw.id}
-        renderItem={({ item }) => <ContactCard item={item} />}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            onPress={() => router.push(`Task/AllTask/${item._raw.id}`)}
+          >
+            <ContactCard item={item} />
+          </TouchableOpacity>
+        )}
         contentContainerStyle={styles.listContainer}
       />
     </View>

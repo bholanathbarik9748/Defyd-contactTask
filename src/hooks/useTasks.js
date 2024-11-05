@@ -1,19 +1,25 @@
 import { useState } from "react";
-import { db } from "../database/setupDatabase";
+import { database as db } from "../database";
 
 const useTasks = () => {
   const [tasks, setTasks] = useState([]);
+  const [singleTask, setSingleTask] = useState([]);
 
   const fetchTasks = async (contactId) => {
     const dbTasks = await db.collections.get("tasks").query().fetch();
-    setTasks(dbTasks.filter((task) => task.contact.id === contactId));
+    setTasks(dbTasks.filter((task) => task._raw.contact_id === contactId));
+  };
+
+  const fetchTaskById = async (taskId) => {
+    const fetchedTask = await db.collections.get("tasks").find(taskId);
+    setSingleTask(fetchedTask);
   };
 
   const createTask = async (contactId, title, dueDate) => {
     await db.write(async () => {
       await db.collections.get("tasks").create((task) => {
         task.title = title;
-        task.dueDate = dueDate;
+        task.due_date = dueDate;
         task.contact.id = contactId;
       });
     });
@@ -25,7 +31,7 @@ const useTasks = () => {
     await db.write(async () => {
       await task.update((record) => {
         record.title = updatedData.title;
-        record.dueDate = updatedData.dueDate;
+        record.due_date = updatedData.dueData;
       });
     });
     await fetchTasks(task.contact.id);
@@ -42,7 +48,9 @@ const useTasks = () => {
 
   return {
     tasks,
+    singleTask,
     fetchTasks,
+    fetchTaskById,
     createTask,
     updateTask,
     deleteTask,
