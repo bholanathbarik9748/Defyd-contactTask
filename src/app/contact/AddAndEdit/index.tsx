@@ -1,14 +1,8 @@
-import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import CreateContact from "@/src/screen/CreateContact/CreateContact";
 
 const index = () => {
-  return (
-    <View>
-      <Text>index</Text>
-    </View>
-  );
+  return <CreateContact />;
 };
 
 export default index;
-
-const styles = StyleSheet.create({});

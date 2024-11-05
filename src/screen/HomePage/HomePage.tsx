@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   FlatList,
   TextInput,
@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from "react-native";
-import { useRouter } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 import { AntDesign, Ionicons } from "@expo/vector-icons"; // Feather for search, Ionicons for toggle
 
 import useContacts from "../../hooks/useContacts";
@@ -21,9 +21,11 @@ const HomePage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  useEffect(() => {
-    fetchContacts();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      fetchContacts();
+    }, [])
+  );
 
   // Filter contacts based on search query
   const filteredContacts = contacts.filter((contact) =>
@@ -69,7 +71,7 @@ const HomePage = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.darkModeButton}
-          onPress={toggleDarkMode}
+          onPress={() => router.navigate("/contact/AddAndEdit")}
         >
           <AntDesign name="plus" size={18} color="#fff" />
           {isDarkMode}
