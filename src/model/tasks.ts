@@ -6,5 +6,5 @@ export default class Task extends Model {
 
   @field("title") title: any;
   @field("due_date") due_date: any;
-  @relation("contacts", "contact_id") contact: any;
+  @field("contact_id") contact: any;
 }

@@ -1,20 +1,19 @@
-export interface ContactRecord {
-  __changes: null;
-  _isEditing: boolean;
-  _preparedState: null;
-  _raw: {
-    _changed: string;
-    _status: string;
-    id: string;
-    name: string;
-    phone: string;
-  };
-  _subscribers: any[]; // Adjust type if specific
-  collection: {
-    _cache: string[]; // e.g., "RecordCache" as array of strings
-    _subscribers: string[]; // Array of strings, adjust as needed
-    changes: string[]; // e.g., "Subject" array
-    database: string[]; // e.g., "Database" array
-    modelClass: string[]; // e.g., "Function Contact" array
-  };
+interface PhoneNumber {
+  countryCode: string;
+  digits: string;
+  id: string;
+  label: string;
+  number: string;
+}
+
+interface ContactRecord {
+  company: string;
+  contactType: "person" | "company"; // Assuming only these types exist
+  firstName: string;
+  id: string;
+  imageAvailable: boolean;
+  jobTitle: string;
+  lastName: string;
+  name: string;
+  phoneNumbers: PhoneNumber[]; // Array of PhoneNumber objects
 }

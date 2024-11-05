@@ -10,12 +10,12 @@ import {
 import { useFocusEffect, useRouter } from "expo-router";
 import { AntDesign, Ionicons } from "@expo/vector-icons"; // Feather for search, Ionicons for toggle
 
-import useContacts from "../../hooks/useContacts";
+import useMobileContacts from "../../hooks/useMobileContacts";
 import ContactCard from "@/src/components/ContactCard/ContactCard";
 import { styles } from "./styles/styles"; // Import external styles
 
 const HomePage = () => {
-  const { contacts, fetchContacts } = useContacts();
+  const { contacts, fetchContacts } = useMobileContacts();
   const router = useRouter();
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -29,7 +29,7 @@ const HomePage = () => {
 
   // Filter contacts based on search query
   const filteredContacts = contacts.filter((contact) =>
-    contact._raw.name.toLowerCase().includes(searchQuery.toLowerCase())
+    contact?.firstName?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   // Toggle Dark Mode
@@ -69,20 +69,13 @@ const HomePage = () => {
           />
           {isDarkMode}
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.darkModeButton}
-          onPress={() => router.navigate("/contact/AddAndEdit")}
-        >
-          <AntDesign name="plus" size={18} color="#fff" />
-          {isDarkMode}
-        </TouchableOpacity>
       </View>
       <FlatList
         data={filteredContacts}
-        keyExtractor={(item) => item._raw.id}
+        keyExtractor={(item, ind) => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity
-            onPress={() => router.push(`Task/AllTask/${item._raw.id}`)}
+            onPress={() => router.push(`/Task/AllTask/${item.id.replace(/-/g, "")}`)}
           >
             <ContactCard item={item} />
           </TouchableOpacity>

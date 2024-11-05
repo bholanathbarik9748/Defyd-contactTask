@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Text, View } from "react-native";
-import { ContactRecord } from "../../types/ContactCard";
+import ContactRecord from "../../types/ContactCard";
 import { styles } from "./style";
 import { MaterialIcons } from "@expo/vector-icons";
 
@@ -20,10 +20,14 @@ const getInitials = (name: string) => {
 const ContactCard: FC<ContactCardProps> = ({ item }) => (
   <View style={styles.card}>
     <View style={styles.avatar}>
-      <Text style={styles.avatarText}>{getInitials(item._raw.name)}</Text>
+      <Text style={styles.avatarText}>
+        {getInitials(item.firstName + " " + item.lastName)}
+      </Text>
     </View>
     <View style={styles.contactInfo}>
-      <Text style={styles.name}>{item._raw.name}</Text>
+      <Text style={styles.name}>
+        {item.firstName} {item.lastName}
+      </Text>
       <View style={styles.phoneContainer}>
         <MaterialIcons
           name="phone"
@@ -31,7 +35,13 @@ const ContactCard: FC<ContactCardProps> = ({ item }) => (
           color="#4a90e2"
           style={styles.icon}
         />
-        <Text style={styles.phone}>{item._raw.phone}</Text>
+        {item.phoneNumbers && item.phoneNumbers.length > 0 && (
+          <Text style={styles.phone}>
+            {item.phoneNumbers[0].countryCode +
+              " " +
+              item.phoneNumbers[0].number}
+          </Text>
+        )}
       </View>
     </View>
   </View>

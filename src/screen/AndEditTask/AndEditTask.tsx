@@ -27,16 +27,6 @@ const CreateAndEditTask = () => {
       return;
     }
 
-    const dueDateTimestamp = Date.parse(formData.dueData);
-
-    if (isNaN(dueDateTimestamp)) {
-      Alert.alert(
-        "Error",
-        "Please enter a valid due date in YYYY-MM-DD format."
-      );
-      return;
-    }
-
     try {
       if (mode === "add") {
         await createTask(id, formData?.title, formData?.dueData);
