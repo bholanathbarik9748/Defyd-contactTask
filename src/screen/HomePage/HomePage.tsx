@@ -13,13 +13,17 @@ import { AntDesign, Ionicons } from "@expo/vector-icons"; // Feather for search,
 import useMobileContacts from "../../hooks/useMobileContacts";
 import ContactCard from "@/src/components/ContactCard/ContactCard";
 import { styles } from "./styles/styles"; // Import external styles
+import { RootState } from "@/src/store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleDarkMode } from "@/src/store/slice/themeSlice";
 
 const HomePage = () => {
+  const dispatch = useDispatch();
   const { contacts, fetchContacts } = useMobileContacts();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const router = useRouter();
 
   const [searchQuery, setSearchQuery] = useState("");
-  const [isDarkMode, setIsDarkMode] = useState(false);
 
   useFocusEffect(
     useCallback(() => {
@@ -33,7 +37,7 @@ const HomePage = () => {
   );
 
   // Toggle Dark Mode
-  const toggleDarkMode = () => setIsDarkMode((prevMode) => !prevMode);
+  const toggleTheme = () => dispatch(toggleDarkMode());
 
   return (
     <View
@@ -58,10 +62,7 @@ const HomePage = () => {
             onChangeText={setSearchQuery}
           />
         </View>
-        <TouchableOpacity
-          style={styles.darkModeButton}
-          onPress={toggleDarkMode}
-        >
+        <TouchableOpacity style={styles.darkModeButton} onPress={toggleTheme}>
           <Ionicons
             name={isDarkMode ? "sunny-outline" : "moon-outline"}
             size={18}
@@ -75,7 +76,9 @@ const HomePage = () => {
         keyExtractor={(item, ind) => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity
-            onPress={() => router.push(`/Task/AllTask/${item.id.replace(/-/g, "")}`)}
+            onPress={() =>
+              router.push(`/Task/AllTask/${item.id.replace(/-/g, "")}`)
+            }
           >
             <ContactCard item={item} />
           </TouchableOpacity>

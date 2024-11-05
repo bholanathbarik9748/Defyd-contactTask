@@ -11,9 +11,12 @@ import { useLocalSearchParams, useNavigation } from "expo-router";
 import { styles } from "../CreateContact/styles/styles";
 import { AndEditTaskType } from "./types/AndEditTaskType";
 import useTasks from "@/src/hooks/useTasks";
+import { useSelector } from "react-redux";
+import { RootState } from "@/src/store/store";
 
 const CreateAndEditTask = () => {
   const { mode, id } = useLocalSearchParams();
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
   const navigation = useNavigation();
   const { createTask, updateTask, fetchTaskById, singleTask } = useTasks();
   const [formData, setFormData] = useState<AndEditTaskType>({
@@ -59,7 +62,12 @@ const CreateAndEditTask = () => {
   }, [singleTask]);
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: isDarkMode ? "#1c1c1c" : "#f2f2f2" },
+      ]}
+    >
       <View style={styles.card}>
         <Text style={styles.headerText}>
           {mode === "add" ? "Create Task" : "Update Task"}

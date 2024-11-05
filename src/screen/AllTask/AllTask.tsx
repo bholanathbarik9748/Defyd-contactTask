@@ -5,13 +5,15 @@ import useTasks from "../../hooks/useTasks";
 import { styles } from "./styles/styles"; // Import external styles
 import { AntDesign } from "@expo/vector-icons";
 import TaskCard from "@/src/components/taskCard/TaskCard";
+import { RootState } from "@/src/store/store";
+import { useSelector } from "react-redux";
 
 const AllTask = () => {
   const router = useRouter();
   const { id } = useLocalSearchParams();
   const { tasks, fetchTasks, deleteTask } = useTasks();
   const [searchQuery, setSearchQuery] = useState("");
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const isDarkMode = useSelector((state: RootState) => state.theme.isDarkMode);
 
   useFocusEffect(
     useCallback(() => {
@@ -65,7 +67,13 @@ const AllTask = () => {
       <View style={styles.header}>
         <View style={styles.searchBarContainer}>
           <TextInput
-            style={styles.searchBar}
+            style={[
+              styles.searchBar,
+              {
+                backgroundColor: isDarkMode ? "#444" : "#fff",
+                color: isDarkMode ? "#fff" : "#000",
+              },
+            ]}
             placeholder="Search Tasks"
             placeholderTextColor={isDarkMode ? "#bbb" : "#888"}
             value={searchQuery}

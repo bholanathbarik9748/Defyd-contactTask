@@ -7,7 +7,6 @@ const useTasks = () => {
 
   const fetchTasks = async (contactId) => {
     const dbTasks = await db.collections.get("tasks").query().fetch();
-    console.log(dbTasks);
     setTasks(dbTasks.filter((task) => task.contact_id === contactId.replace(/-/g, "")));
   };
 
@@ -17,7 +16,6 @@ const useTasks = () => {
   };
 
   const createTask = async (contactId, title, dueDate) => {
-    console.log(contactId);
     await db.write(async () => {
       await db.collections.get("tasks").create((task) => {
         task.title = title;
@@ -30,7 +28,6 @@ const useTasks = () => {
 
   const updateTask = async (taskId, updatedData) => {
     const task = await db.collections.get("tasks").find(taskId);
-    console.log("task", task);
     await db.write(async () => {
       await task.update((record) => {
         record.title = updatedData.title;
